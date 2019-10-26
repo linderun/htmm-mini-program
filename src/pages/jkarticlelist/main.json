@@ -1,0 +1,6 @@
+{
+	"navigationBarTitleText": "核桃妈妈",
+	"enablePullDownRefresh": true,
+	"onPullDownRefresh": true,
+	"onReachBottom": true
+}
