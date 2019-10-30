@@ -12,6 +12,8 @@
 	"compileType": "miniprogram",
 	"appid": "wx8d63a38af28e4395",
 	"projectname": "hospital",
+	"simulatorType": "wechat",
+	"simulatorPluginLibVersion": {},
 	"condition": {
 		"search": {
 			"current": -1,
