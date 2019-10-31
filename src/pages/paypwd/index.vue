@@ -41,7 +41,7 @@
 		data() {
 			return {
 				code: '',
-				phone: '',
+				phone: wx.getStorageSync('userinfo').cellphone,
 				pwd: '',
 				confirmpwd: '',
 				isAble: '0',
@@ -69,10 +69,76 @@
 			
 			},
 			getCode() {
-				
+				var that = this;
+				if (that.isAble == '1') {
+					that.isAble = '0';
+					var num = 60;
+					that.codetxt = num + 's';
+					var timer = setInterval(function () {
+						if (num == 1) {
+							clearInterval(timer);
+							that.codetxt = '获取验证码';
+							that.isAble = '1';
+						} else {
+							num--;
+							that.codetxt = num + 's';
+						}
+					}, 1000);
+					api.sendVerifyCode(that.phone).then(da => {
+						var data = da.param;
+						if (data.code == 200) {
+							wx.showToast({
+								title: '验证码已发送，请查看短信',
+								icon: 'success'
+							});
+						} else {
+							wx.showToast({
+								title: '验证码发送失败，请稍后重试',
+								icon: 'none'
+							});
+						}
+					})
+				}
 			},
 			setPayPwd() {
-				
+				if(this.code == ''){
+					wx.showToast({
+						title: '请填写验证码',
+						icon: 'none'
+					});
+					return false;
+				}
+				if(this.pwd == '' || this.confirmpwd == ''){
+					wx.showToast({
+						title: '请填写密码',
+						icon: 'none'
+					});
+					return false;
+				}
+				var param = {
+					formData: {
+						pay_password: this.pwd,
+						pay_password_confirm: this.confirmpwd,
+						verification_code: this.code
+					}
+				}
+				api.setMemberPayPassword(param, this.globalData.member_id).then(da => {
+					var data = da.param;
+					if (data.code == 200) {
+						wx.showToast({
+							title: data.message,
+							icon: 'success'
+						});
+						wx.navigateBack({
+							delta: 1
+						});
+					} else {
+						wx.showToast({
+							title: data.message,
+							icon: 'none'
+						});
+					}
+				})
 			}
 		},
 		watch: {
