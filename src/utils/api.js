@@ -132,6 +132,28 @@ export function setMemberPayPassword(param, memberId) {
     })
 }
 
+export function getRechargeAmount() {
+    let login_code = wx.getStorageSync('login_code');
+    return $http.get({
+        url: '/api/firm/member/getRechargeAmount?login_code=' + login_code,
+    })
+}
+
+export function prepareOrderRecharge(param) {
+    let login_code = wx.getStorageSync('login_code');
+    return $http.post({
+        url: '/api/firm/payment/weixin/prepareOrder/recharge?login_code=' + login_code,
+        data: param
+    })
+}
+
+export function getAccountChangeRecord(memberId, page) {
+    let login_code = wx.getStorageSync('login_code');
+    return $http.get({
+        url: '/api/firm/account_change_record/index?member_id=' + memberId + '&page=' + page + '&login_code=' + login_code,
+    })
+}
+
 export default {
     getmsglist,
     getbannerlist,
@@ -149,5 +171,8 @@ export default {
     delAddress,
     sendVerifyCode,
     setMemberPhone,
-    setMemberPayPassword
+    setMemberPayPassword,
+    getRechargeAmount,
+    getAccountChangeRecord,
+    prepareOrderRecharge
 }

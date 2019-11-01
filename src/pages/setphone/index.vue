@@ -28,6 +28,9 @@
 </template>
 
 <script>
+    import api from '@/utils/api';
+    import {regPhone} from '@/utils/index';
+
     export default {
         components: {},
 
@@ -53,7 +56,7 @@
             this.phone = '';
             this.pwd = '';
             this.confirmpwd = '';
-            this.isAble = '0';
+            this.isAble = '1';
             this.codetxt = '获取验证码';
         },
         methods: {
