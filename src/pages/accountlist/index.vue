@@ -36,8 +36,9 @@
         components: {},
 
         data() {
+            var userinfo = wx.getStorageSync('userinfo');
             return {
-                accumulated_recharge_amount: wx.getStorageSync('userinfo').accumulated_recharge_amount,
+                accumulated_recharge_amount: userinfo.accumulated_recharge_amount,
                 scrollhight: 100,
                 rechargeLog: [],
                 page: 1,

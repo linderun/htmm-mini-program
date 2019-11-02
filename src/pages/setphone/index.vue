@@ -40,7 +40,7 @@
                 phone: '',
                 pwd: '',
                 confirmpwd: '',
-                isAble: '0',
+                isAble: '1',
                 codetxt: '获取验证码'
             }
         },
@@ -56,7 +56,7 @@
             this.phone = '';
             this.pwd = '';
             this.confirmpwd = '';
-            this.isAble = '1';
+            this.isAble = '0';
             this.codetxt = '获取验证码';
         },
         methods: {

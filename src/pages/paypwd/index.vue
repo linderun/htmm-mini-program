@@ -43,9 +43,10 @@
         components: {},
 
         data() {
+            var userinfo = wx.getStorageSync('userinfo');
             return {
                 code: '',
-                phone: wx.getStorageSync('userinfo').cellphone,
+                phone: userinfo.cellphone,
                 pwd: '',
                 confirmpwd: '',
                 isAble: '1',
