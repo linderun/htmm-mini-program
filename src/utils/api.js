@@ -154,6 +154,13 @@ export function getAccountChangeRecord(memberId, page) {
     })
 }
 
+export function getMemberInfoById(memberId) {
+    let login_code = wx.getStorageSync('login_code');
+    return $http.get({
+        url: '/api/firm/member/show/' + memberId + '?login_code=' + login_code,
+    })
+}
+
 export default {
     getmsglist,
     getbannerlist,
@@ -174,5 +181,6 @@ export default {
     setMemberPayPassword,
     getRechargeAmount,
     getAccountChangeRecord,
-    prepareOrderRecharge
+    prepareOrderRecharge,
+    getMemberInfoById
 }

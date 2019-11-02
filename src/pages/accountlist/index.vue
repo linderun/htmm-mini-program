@@ -36,9 +36,8 @@
         components: {},
 
         data() {
-            var userinfo = wx.getStorageSync('userinfo');
             return {
-                accumulated_recharge_amount: userinfo.accumulated_recharge_amount,
+                accumulated_recharge_amount: 0,
                 scrollhight: 100,
                 rechargeLog: [],
                 page: 1,
@@ -67,7 +66,9 @@
                     that.scrollhight = res.windowHeight - res.windowWidth * 60 / 750
                 }
             });
-            that.getRechargeLog()
+            that.getRechargeLog();
+            var userinfo = wx.getStorageSync('userinfo');
+            this.accumulated_recharge_amount = userinfo.accumulated_recharge_amount;
         },
         methods: {
             getRechargeLog() {

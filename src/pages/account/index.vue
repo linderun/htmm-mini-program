@@ -1,15 +1,15 @@
 <template>
-  <div class="acount">
-    <image src="/static/images/icon27.png " mode="aspectFit"/>
-    <div class="money flex flex-pack-justify">
-      <span>账户余额</span>
-      <span class="red">￥{{money}}</span>
+    <div class="acount">
+        <image src="/static/images/icon27.png " mode="aspectFit"/>
+        <div class="money flex flex-pack-justify">
+            <span>账户余额</span>
+            <span class="red">￥{{money}}</span>
+        </div>
+        <div class="linkbox ml10 mr10">
+            <a href="/pages/paycheck/main">去充值</a>
+            <a href="/pages/accountlist/main">查看记录</a>
+        </div>
     </div>
-    <div class="linkbox ml10 mr10">
-      <a href="/pages/paycheck/main">去充值</a>
-      <a href="/pages/accountlist/main">查看记录</a>
-    </div>
-  </div>
 </template>
 
 <script>
@@ -19,67 +19,55 @@
         components: {},
 
         data() {
-            var userinfo = wx.getStorageSync('userinfo');
             return {
-                money: userinfo.total_amount
+                money: 0
             }
         },
         onLoad() {
             var that = this;
-            api.getAccountChangeRecord().then(function (data) {
-                var da = data.param;
-                wx.hideNavigationBarLoading(); //隐藏导航条加载动画。
-                if (da.code == 200) {
-                    if (that.page == 1) {
-                        that.rechargeLog = da.data.list;
-                    } else {
-                        that.rechargeLog = that.rechargeLog.concat(da.data.list);
-                    }
-                    if (that.rechargeLog.length >= da.data.totalCount) {
-                        that.isMore = false;
-                    } else {
-                        that.page++
-                    }
-                    console.log(that.isMore)
+            api.getMemberInfoById(this.globalData.member_id).then(da => {
+                var item = da.param.data.item;
+                if (da.param.code == 200) {
+                    wx.setStorageSync('userinfo', item);
+                    that.money = item.total_amount;
                 }
-            })
+            });
         },
         created() {
         },
         mounted() {
             var that = this;
-
         }
     }
 </script>
 
 <style scoped>
-  /*账户*/
+    /*账户*/
 
-  .acount {
-    text-align: center;
-    padding: 20px 0;
-  }
+    .acount {
+        text-align: center;
+        padding: 20px 0;
+    }
 
-  .acount .money {
-    padding: 20px 40px;
-    border-bottom: 1px solid #efefef;
-    border-top: 1px solid #efefef;
-    margin-top: 20px;
-  }
+    .acount .money {
+        padding: 20px 40px;
+        border-bottom: 1px solid #efefef;
+        border-top: 1px solid #efefef;
+        margin-top: 20px;
+    }
 
-  .acount .linkbox a {
-    display: inline-block;
-    width: 80px;
-    background: #ff5454;
-    color: #fff;
-    line-height: 30px;
-    margin: 20px 10px;
-    font-size: 24 rpx;
-  }
+    .acount .linkbox a {
+        display: inline-block;
+        width: 80px;
+        background: #ff5454;
+        color: #fff;
+        line-height: 30px;
+        margin: 20px 10px;
+        font-size: 24 rpx;
+    }
 
-  .acount image {
-    width: 128 rpx;
-    height: 142 rpx;
-  }
+    .acount image {
+        width: 128 rpx;
+        height: 142 rpx;
+    }
 </style>
